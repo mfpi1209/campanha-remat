@@ -40,7 +40,7 @@ export default function ListaMatriculas() {
   const exportarCSV = () => {
     if (matriculas.length === 0) return;
 
-    const headers = ['Nome', 'RGM', 'Série', 'Situação Financeira', 'Valor Mensalidade', 'Mensalidades Restantes', 'Campanha', 'Data Cadastro'];
+    const headers = ['Nome', 'RGM', 'Série', 'Situação Financeira', 'Valor Mensalidade', 'Mensalidades Restantes', 'Campanha', 'Consultor', 'Data Cadastro'];
 
     const rows = matriculas.map((matricula) => [
       matricula.nome,
@@ -50,6 +50,7 @@ export default function ListaMatriculas() {
       `R$ ${Number(matricula.valor_mensalidade).toFixed(2)}`,
       matricula.mensalidades_restantes,
       matricula.campanhas?.descricao || '-',
+      matricula.consultor || '-',
       new Date(matricula.created_at).toLocaleDateString('pt-BR')
     ]);
 
@@ -137,6 +138,9 @@ export default function ListaMatriculas() {
                   Campanha
                 </th>
                 <th className="px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
+                  Consultor
+                </th>
+                <th className="px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
                   Status Rematrícula
                 </th>
               </tr>
@@ -170,6 +174,9 @@ export default function ListaMatriculas() {
                   </td>
                   <td className="px-4 py-4 text-sm text-gray-600">
                     {matricula.campanhas?.descricao || '-'}
+                  </td>
+                  <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-600">
+                    {matricula.consultor || '-'}
                   </td>
                   <td className="px-4 py-4 text-sm">
                     <span className={`px-3 py-1 rounded-full text-xs font-medium ${

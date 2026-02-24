@@ -25,5 +25,8 @@ export interface Matricula {
   valor_mensalidade: number;
   mensalidades_restantes: number;
   campanha_id: string;
+  consultor?: string;
+  status_rematricula?: string;
+  data_rematricula?: string;
   created_at?: string;
 }

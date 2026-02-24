@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { supabase, Campanha, Matricula, Consultor } from '../lib/supabase';
+import { supabase, Campanha, Matricula } from '../lib/supabase';
 import { CheckCircle2, AlertCircle, UserPlus, Zap } from 'lucide-react';
 
 export default function FormularioRematricula() {
@@ -10,17 +10,15 @@ export default function FormularioRematricula() {
   const [valorMensalidade, setValorMensalidade] = useState('');
   const [mensalidadesRestantes, setMensalidadesRestantes] = useState('');
   const [campanhaId, setCampanhaId] = useState('');
-  const [consultorId, setConsultorId] = useState('');
+  const [consultor, setConsultor] = useState('');
 
   const [campanhas, setCampanhas] = useState<Campanha[]>([]);
-  const [consultores, setConsultores] = useState<Consultor[]>([]);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
   const [preenchidoAutomatico, setPreenchidoAutomatico] = useState(false);
 
   useEffect(() => {
     carregarCampanhas();
-    carregarConsultores();
   }, [situacaoFinanceira]);
 
   useEffect(() => {
@@ -45,23 +43,6 @@ export default function FormularioRematricula() {
     setCampanhas(data || []);
     if (data && data.length > 0) {
       setCampanhaId(data[0].id);
-    }
-  };
-
-  const carregarConsultores = async () => {
-    const { data, error } = await supabase
-      .from('consultores')
-      .select('*')
-      .order('nome');
-
-    if (error) {
-      console.error('Erro ao carregar consultores:', error);
-      return;
-    }
-
-    setConsultores(data || []);
-    if (data && data.length > 0) {
-      setConsultorId(data[0].id);
     }
   };
 
@@ -96,7 +77,7 @@ export default function FormularioRematricula() {
       valor_mensalidade: parseFloat(valorMensalidade),
       mensalidades_restantes: parseInt(mensalidadesRestantes),
       campanha_id: campanhaId,
-      consultor_id: consultorId
+      consultor: consultor
     };
 
     const { error } = await supabase
@@ -118,6 +99,7 @@ export default function FormularioRematricula() {
     setSituacaoFinanceira('Adimplente');
     setValorMensalidade('');
     setMensalidadesRestantes('');
+    setConsultor('');
   };
 
   return (
@@ -247,22 +229,14 @@ export default function FormularioRematricula() {
             <label className="block text-sm font-medium text-gray-700 mb-2">
               Consultor
             </label>
-            <select
-              value={consultorId}
-              onChange={(e) => setConsultorId(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+            <input
+              type="text"
               required
-            >
-              {consultores.length === 0 ? (
-                <option value="">Nenhum consultor disponível</option>
-              ) : (
-                consultores.map((consultor) => (
-                  <option key={consultor.id} value={consultor.id}>
-                    {consultor.nome}
-                  </option>
-                ))
-              )}
-            </select>
+              value={consultor}
+              onChange={(e) => setConsultor(e.target.value)}
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+              placeholder="Nome do consultor"
+            />
           </div>
 
           <div>
@@ -290,7 +264,7 @@ export default function FormularioRematricula() {
 
         <button
           type="submit"
-          disabled={loading || campanhas.length === 0 || consultores.length === 0}
+          disabled={loading || campanhas.length === 0}
           className="w-full bg-blue-600 text-white py-3 rounded-lg font-medium hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition duration-200 flex items-center justify-center gap-2"
         >
           {loading ? 'Cadastrando...' : 'Cadastrar Rematrícula'}
