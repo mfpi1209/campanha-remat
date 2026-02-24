@@ -20,8 +20,11 @@ export default function FormularioRematricula() {
 
   useEffect(() => {
     carregarCampanhas();
-    carregarConsultores();
   }, [situacaoFinanceira]);
+
+  useEffect(() => {
+    carregarConsultores();
+  }, []);
 
   useEffect(() => {
     if (rgm.length >= 6) {
