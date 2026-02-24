@@ -16,6 +16,12 @@ export interface Campanha {
   created_at: string;
 }
 
+export interface Consultor {
+  id: string;
+  nome: string;
+  created_at: string;
+}
+
 export interface Matricula {
   id?: string;
   nome: string;
