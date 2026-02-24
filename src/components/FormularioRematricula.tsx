@@ -60,9 +60,6 @@ export default function FormularioRematricula() {
     }
 
     setConsultores(data || []);
-    if (data && data.length > 0) {
-      setConsultorNome(data[0].nome);
-    }
   };
 
   const buscarCandidato = async () => {
@@ -253,15 +250,12 @@ export default function FormularioRematricula() {
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
               required
             >
-              {consultores.length === 0 ? (
-                <option value="">Nenhum consultor disponível</option>
-              ) : (
-                consultores.map((consultor) => (
-                  <option key={consultor.id} value={consultor.nome}>
-                    {consultor.nome}
-                  </option>
-                ))
-              )}
+              <option value="">Selecione um consultor</option>
+              {consultores.map((consultor) => (
+                <option key={consultor.id} value={consultor.nome}>
+                  {consultor.nome}
+                </option>
+              ))}
             </select>
           </div>
 
@@ -290,7 +284,7 @@ export default function FormularioRematricula() {
 
         <button
           type="submit"
-          disabled={loading || campanhas.length === 0 || consultores.length === 0}
+          disabled={loading || campanhas.length === 0}
           className="w-full bg-blue-600 text-white py-3 rounded-lg font-medium hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition duration-200 flex items-center justify-center gap-2"
         >
           {loading ? 'Cadastrando...' : 'Cadastrar Rematrícula'}
