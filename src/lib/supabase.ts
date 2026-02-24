@@ -34,5 +34,6 @@ export interface Matricula {
   consultor?: string;
   status_rematricula?: string;
   data_rematricula?: string;
+  data_cadastro_campanha?: string;
   created_at?: string;
 }

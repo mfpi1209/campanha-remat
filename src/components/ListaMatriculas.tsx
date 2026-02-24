@@ -51,7 +51,9 @@ export default function ListaMatriculas() {
       matricula.mensalidades_restantes,
       matricula.campanhas?.descricao || '-',
       matricula.consultor || '-',
-      new Date(matricula.created_at).toLocaleDateString('pt-BR')
+      matricula.data_cadastro_campanha
+        ? new Date(matricula.data_cadastro_campanha).toLocaleDateString('pt-BR')
+        : '-'
     ]);
 
     const csvContent = [
@@ -141,6 +143,9 @@ export default function ListaMatriculas() {
                   Consultor
                 </th>
                 <th className="px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
+                  Data Cadastro
+                </th>
+                <th className="px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
                   Status Rematrícula
                 </th>
               </tr>
@@ -177,6 +182,12 @@ export default function ListaMatriculas() {
                   </td>
                   <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-600">
                     {matricula.consultor || '-'}
+                  </td>
+                  <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-600">
+                    {matricula.data_cadastro_campanha
+                      ? new Date(matricula.data_cadastro_campanha).toLocaleDateString('pt-BR')
+                      : '-'
+                    }
                   </td>
                   <td className="px-4 py-4 text-sm">
                     <span className={`px-3 py-1 rounded-full text-xs font-medium ${
