@@ -52,6 +52,7 @@ export default function FormularioRematricula() {
   };
 
   const carregarConsultores = async () => {
+    console.log('Carregando consultores...');
     const { data, error } = await supabase
       .from('consultores')
       .select('*')
@@ -62,6 +63,7 @@ export default function FormularioRematricula() {
       return;
     }
 
+    console.log('Consultores carregados:', data);
     setConsultores(data || []);
   };
 
